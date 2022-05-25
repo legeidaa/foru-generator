@@ -22,7 +22,7 @@
 					@click="addAttributess"
 				>Проставить атрибуты</button>
 				<button class="button">Конвертировать</button>
-				<DropdownSelect
+				<DropdownSelect 
 					:blockTypes="blockTypes"
 					:selectedBlockType="selectedBlockType"
 					@selectType="selectType"
@@ -65,7 +65,7 @@ export default {
     <input elementid="elmqbeaq2562osaqdsokq9wr" type="number" value="45271.59">
     <label ng-class="sitecontent['elmqbeaq2562osaqdsokq9wr']['classes']">Цена</label>
     <div class="trade__form-input-tooltip">
-        Введите объем покупки
+        Введите объем <b>покупки</b>
     </div>
     <a href="vk.com">Ссылка</a>
 	<img/>
