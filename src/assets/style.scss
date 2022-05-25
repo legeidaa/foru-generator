@@ -1,0 +1,146 @@
+@mixin bg {
+    background: rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 3px 5px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(2px);
+    border-radius: 10px;
+    // border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+html {
+    min-height: 100vh;
+    font-family:  monospace;
+    background-color: #51385d;
+    background-image: url('./bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+body {
+    // background-color: #000;
+    color: #fff;
+}
+
+.container {
+    margin-top: 50px;
+    width: 100%;
+    display: grid;
+    grid-template: auto / 1fr 1fr;
+    gap: 50px;
+}
+
+.code_editor {
+    textarea {
+        background: inherit !important;
+    }
+
+}
+
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.button {
+    height: 40px;
+    width: max-content;
+    font-size: 17px;
+    padding: 0 30px;
+    color: #fff;
+    border: none;
+    background-color: #8456b6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+        box-shadow: 3px 3px 3px #282c34;
+    }
+}
+.dropdown-select {
+    color: #fff;
+    font-size: 17px;
+    // @include bg ;
+    background: #282c34;
+    border-radius: 8px;
+    height: 40px;
+    width: 100%;
+    position: relative;
+    display: flex;
+
+    &__text {
+        background-color: inherit;
+        font-size: 17px;
+        border: none;
+        border-radius: inherit;
+        color: inherit;
+        padding-left: 30px;
+        width: 100%;
+        cursor: pointer;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    &__menu {
+        // @include bg ;
+        width: 100%;
+        border-radius: 8px;
+        height: auto;
+        position: absolute;
+        left: 0;
+        top: 110%;
+        background: inherit;
+        transition: 0.2s;
+        transform-origin: top;
+        transition: transform 2s ease-in-out;
+
+        ul {
+            padding: 0;
+            margin: 5px 0;
+        }
+
+
+    }
+
+    &__item {
+        padding: 5px;
+        padding-left: 30px;
+        cursor: pointer;
+
+        // transition: 0.2s;
+        &:hover {
+            background-color: #48494d;
+        }
+        &.active {
+            background-color: #48494d;
+        }
+    }
+}
+
+.hiddenHTML {
+    display: none;
+}
+
+
+
+.slide-enter-from {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.slide-enter-active {
+    transition: all 0.3s;
+    transition-timing-function: cubic-bezier(.61, -0.53, .43, 1.43);
+}
+
+
+.slide-leave-active {
+    transition: all 0.3s;
+    transition-timing-function: cubic-bezier(.61, -0.53, .43, 1.43);
+}
+
+.slide-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+}
