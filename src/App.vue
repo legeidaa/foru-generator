@@ -62,7 +62,7 @@ export default {
 			selectedBlockType: "Табы",
 			content: `<div onclick="alert(1)" class="trade__form-input" tabindex="0">
     Текстовый узел
-    <input elementid="elmqbeaq2562osaqdsokq9wr" type="number" value="45271.59">
+    <input style="display: block;" elementid="elmqbeaq2562osaqdsokq9wr" type="number" value="45271.59">
     <label ng-class="sitecontent['elmqbeaq2562osaqdsokq9wr']['classes']">Цена</label>
     <div class="trade__form-input-tooltip">
         Введите объем <b>покупки</b>

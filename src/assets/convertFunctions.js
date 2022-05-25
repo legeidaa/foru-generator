@@ -19,15 +19,24 @@ function generateId() {
 //         "ng-attr-modelid": `{{sitecontent['${id}']['modelid']}}`
 //     }
 // }
+
+
 export function addAttrs() {
     const hiddenHTML = document.querySelector('.hiddenHTML')
     const nodes = hiddenHTML.querySelectorAll('*')
+    
     let generatedSpans = []
 
     nodes.forEach(node => {
         let id = null
         let childNodes = node.childNodes
         const textTags = /\bDIV\b|\bP\b|\bSPAN\b|\bH1\b|\bH2\b|\bH3\b|\bH4\b|\bH5\b|\bH6\b|\bB\b|\bSTRONG\b|\bBLOQUOTE\b|\bI\b|\bLABEL\b|\bQ\b|\bS\b/
+
+        // let element = {}
+        // let text = ""
+        // let classes = ""
+        // let style = {}
+        // let src = ""
 
         //если айди есть, ставим его, иначе генерируем
         if (!node.hasAttribute("elementid")) {
@@ -39,14 +48,15 @@ export function addAttrs() {
 
         //оборачиваем в span текстовые узлы
         for (let i = 0; i < childNodes.length; i++) {
+            console.log(childNodes[i]);
             if (childNodes[i].nodeType == 3) {
                 if (childNodes[i].textContent.trim() != '' && node == childNodes[i].parentNode && node.children.length > 0) {
                     const span = document.createElement('span');
+                    childNodes[i].data.trim()
                     childNodes[i].after(span);
 
 
                     span.appendChild(childNodes[i]);
-                    console.log(span);
                     generatedSpans.push(span)
                 }
             }
@@ -54,6 +64,15 @@ export function addAttrs() {
         node.setAttribute("ng-class", `sitecontent['${id}']['classes']`)
         node.setAttribute("ng-style", `sitecontent['${id}']['style']`)
         node.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
+
+        // element = {
+        //     id: {
+        //         "classes": "",
+        //         "style": {}
+        //     }
+        // }
+
+        console.log(node.textContent);
 
         if (node.tagName === 'A') {
             node.setAttribute("ng-href", `{{sitecontent['${id}']['href']}}`)
@@ -69,8 +88,6 @@ export function addAttrs() {
         }
     })
 
-    console.log(generatedSpans);
-
 
     //так как спаны, которым оборачиваем текстовые узлы, не присутствуют в nodes, нужно их проходить отдельно
     generatedSpans.forEach(span => {
@@ -81,5 +98,7 @@ export function addAttrs() {
         span.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
         span.setAttribute("ng-model", `sitecontent['${id}']['text']`)
     })
+
+    console.log(element);
     return hiddenHTML.innerHTML
 }
