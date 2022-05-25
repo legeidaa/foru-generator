@@ -32,7 +32,7 @@ export function addAttrs() {
         let childNodes = node.childNodes
         const textTags = /\bDIV\b|\bP\b|\bSPAN\b|\bH1\b|\bH2\b|\bH3\b|\bH4\b|\bH5\b|\bH6\b|\bB\b|\bSTRONG\b|\bBLOQUOTE\b|\bI\b|\bLABEL\b|\bQ\b|\bS\b/
 
-        // let element = {}
+        let element = {}
         // let text = ""
         // let classes = ""
         // let style = {}
@@ -65,12 +65,13 @@ export function addAttrs() {
         node.setAttribute("ng-style", `sitecontent['${id}']['style']`)
         node.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
 
-        // element = {
-        //     id: {
-        //         "classes": "",
-        //         "style": {}
-        //     }
-        // }
+        element = {
+            id: {
+                "classes": "",
+                "style": {}
+            }
+        }
+        console.log(element);
 
         console.log(node.textContent);
 
@@ -99,6 +100,5 @@ export function addAttrs() {
         span.setAttribute("ng-model", `sitecontent['${id}']['text']`)
     })
 
-    console.log(element);
     return hiddenHTML.innerHTML
 }
