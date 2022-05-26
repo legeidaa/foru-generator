@@ -1,31 +1,28 @@
 <template>
 	<div>
 		<div class="container">
-			<CodeEditor
-				class=" atom_one_dark code_editor_custom"
-				:languages="[['HTML', 'HTML']]"
-				v-model="content"
-				:wrap_code="true"
-				v-bind="getTextareaAttrs"
-			></CodeEditor>
+			<div class="editor">
+				<CodeEditor
+					class=" atom_one_light code_editor_custom"
+					:languages="[['HTML', 'HTML']]"
+					v-model="content"
+					:wrap_code="true"
+					v-bind="getTextareaAttrs"
+				></CodeEditor>
+			</div>
 
-			<CodeEditor
-				:languages="[['HTML', 'HTML']]"
-				v-model="result"
-				:wrap_code="true"
-				v-bind="getTextareaAttrs"
-			></CodeEditor>
+			<div class="editor">
+				<CodeEditor
+				class=" atom_one_light code_editor_custom"
+					:languages="[['HTML', 'HTML']]"
+					v-model="result"
+					:wrap_code="true"
+					v-bind="getTextareaAttrs"
+				></CodeEditor>
+			</div>
 		</div>
 		<div class="container">
 			<div class="settings">
-
-				<DropdownSelect
-					:blockTypes="blockTypes"
-					:selectedBlockType="selectedBlockType"
-					@selectType="selectType"
-				>
-					{{ selectedBlockType }}
-				</DropdownSelect>
 
 				<button
 					class="button"
@@ -99,7 +96,7 @@
 import "./assets/style.scss";
 // https://simple-code-editor.vicuxd.com/
 import CodeEditor from "simple-code-editor";
-import DropdownSelect from "./components/Dropdown";
+// import DropdownSelect from "./components/Dropdown";
 // import { addAttrs } from "./assets/convertFunctions";
 
 export default {
@@ -107,7 +104,7 @@ export default {
 
 	components: {
 		CodeEditor,
-		DropdownSelect,
+		// DropdownSelect,
 	},
 
 	data() {
@@ -174,7 +171,7 @@ export default {
 				}
 				return randomString;
 			}
-			return "el" + generateRandomString(5, null).toLowerCase();
+			return "el" + generateRandomString(32, null).toLowerCase();
 		},
 
 		addClasses(node, id, element) {
@@ -201,7 +198,7 @@ export default {
 			}
 			element["style"] = properties;
 			node.setAttribute("ng-style", `sitecontent['${id}']['style']`);
-			// node.removeAttribute('style')
+			node.removeAttribute("style");
 		},
 
 		addModelId(node, id, element) {
@@ -215,6 +212,7 @@ export default {
 				"ng-attr-modelid",
 				`{{sitecontent['${id}']['modelid']}}`
 			);
+			node.removeAttribute("id");
 		},
 
 		addModel(node, id, element) {
@@ -375,10 +373,6 @@ export default {
 
 				if (node.tagName === "TEXTAREA" || node.tagName === "INPUT") {
 					const placeholder = node.getAttribute("placeholder");
-					console.log(
-						node.hasAttribute("required"),
-						node.getAttribute("required")
-					);
 					const required = node.getAttribute("required");
 					element["required"] = false;
 

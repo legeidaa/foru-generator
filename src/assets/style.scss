@@ -11,8 +11,9 @@
 html {
     min-height: 100vh;
     font-family: monospace;
-    background-color: #51385d;
-    background-image: url('./bg.svg');
+    // background-color: #51385d;
+    background-color: #f5f6f7;
+    // background-image: url('./bg.svg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -35,11 +36,20 @@ body {
 
 .code_editor {
    
-
+    .header {
+        border-radius: 0 !important;
+        .dropdown > .mark > div {
+            color: #1b1b32 !important;
+        }
+    }
+    .copy_code > svg {
+        stroke: #1b1b32 !important;
+    }
     .code_area {
-        
+        border-radius: 0 !important;
         textarea {
             background: inherit !important;
+            border-radius: 0 !important;
             &::-webkit-scrollbar {
                 height: 0;
                 width: 5px;
@@ -55,10 +65,10 @@ body {
         }
     }
 
-    // &_custom {
-    //     // border-radius: 0px !important;
-    //     // border: 3px solid #1b1b32;
-    // }
+    &_custom {
+        border-radius: 0px !important;
+        // border: 3px solid #1b1b32;
+    }
     
 }
 
@@ -68,24 +78,30 @@ body {
     gap: 20px;
     align-content: baseline;
 }
-
+.editor {
+    border: 3px solid#1b1b32;
+}
 .button {
-    height: 40px;
+    height: 45px;
     width: max-content;
-    font-size: 17px;
+    font-size: 20px;
     padding: 0 30px;
-    color: #fff;
+    color: #1b1b32;
     border: none;
-    background-color: #8456b6;
-    border-radius: 8px;
+    // background-color: #8456b6;
+    background-color: #d0d0d5;
+    // border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.1s;
+    border: 3px solid#1b1b32;
     &:focus {
         outline: none;
     }
 
     &:hover {
-        box-shadow: 3px 3px 3px #282c34;
+        // box-shadow: 3px 3px 3px #282c34;
+        background-color: #1b1b32;
+        color: #fff ;
     }
 }
 
@@ -160,9 +176,12 @@ body {
 }
 
 .result-object {
-    background: #282c34;
-    border-radius: 8px 8px;
-
+    background: #fafafa;
+    // border-radius: 8px 8px;
+    border: 3px solid#1b1b32;
+    .copy_code > svg {
+        stroke: #1b1b32;
+    }
     &__header {
         position: relative;
         width: 100%;
@@ -172,7 +191,8 @@ body {
         padding: 0 18px;
 
         h3 {
-            color: rgb(170, 170, 170);
+            // color: rgb(170, 170, 170);
+            color: #1b1b32;
             margin: 0;
             padding: 0;
             font-weight: 400;
@@ -193,7 +213,7 @@ body {
     }
     &__result {
         padding: 0 12px 10px;
-
+        color: #1b1b32;
     }
 }
 

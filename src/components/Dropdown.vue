@@ -8,6 +8,14 @@
 		>
 			<slot />
 		</button>
+
+		<!-- <DropdownSelect
+					:blockTypes="blockTypes"
+					:selectedBlockType="selectedBlockType"
+					@selectType="selectType"
+				>
+					{{ selectedBlockType }}
+				</DropdownSelect> -->
 		<transition name="slide">
 			<div
 				class="dropdown-select__menu"
