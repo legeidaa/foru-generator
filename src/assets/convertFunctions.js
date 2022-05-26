@@ -15,12 +15,13 @@ function generateId() {
 
 
 function addClasses(node, id, element) {
+    
     let classes = Array.from(node.classList).join(' ')
 
     if (classes == '') {
         classes = ''
     }
-    element[id]["classes"] = classes
+    element["classes"] = classes
     node.setAttribute("ng-class", `sitecontent['${id}']['classes']`)
 
 }
@@ -39,7 +40,7 @@ function addStyle(node, id, element) {
             properties[match[1]] = match[2].trim();
         }
     }
-    element[id]["style"] = properties
+    element["style"] = properties
     node.setAttribute("ng-style", `sitecontent['${id}']['style']`)
     // node.removeAttribute('style')
 
@@ -49,7 +50,7 @@ function addModelId(node, id, element) {
     let nodeId = node.getAttribute("id")
 
     if (nodeId != null) {
-        element[id]["modelid"] = nodeId
+        element["modelid"] = nodeId
     }
 
     node.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
@@ -61,7 +62,7 @@ function addModel(node, id, element) {
 
         let textContent = node.textContent
         textContent = textContent.replace(/\n/g, '').replace(/\s+/g, ' ')
-        element[id]["text"] = textContent
+        element["text"] = textContent
         node.innerHTML = ''
     }
 }
@@ -70,7 +71,7 @@ function addModel(node, id, element) {
 export function addAttrs() {
     const hiddenHTML = document.querySelector('.hiddenHTML')
     const nodes = hiddenHTML.querySelectorAll('*')
-    const elements = []
+    const elements = {}
 
     let generatedTextWrappers = []
 
@@ -78,7 +79,7 @@ export function addAttrs() {
         let id = null
         let childNodes = node.childNodes
         // const textTags = /\bDIV\b|\bP\b|\bSPAN\b|\bH1\b|\bH2\b|\bH3\b|\bH4\b|\bH5\b|\bH6\b|\bB\b|\bSTRONG\b|\bBLOQUOTE\b|\bI\b|\bLABEL\b|\bQ\b|\bS\b/
-        const element = {}
+        
 
 
         //если айди есть, ставим его, иначе генерируем
@@ -88,7 +89,10 @@ export function addAttrs() {
         } else {
             id = node.getAttribute('elementid')
         }
-        element[id] = {}
+        elements[id] = {}
+        const element =  elements[id]
+
+        console.log(element);
 
 
         //задаем классы
@@ -128,7 +132,7 @@ export function addAttrs() {
                 alert("У ссылки (тега а) отсутствует атрибут href")
             } else {
                 node.setAttribute("ng-href", `{{sitecontent['${id}']['href']}}`)
-                element[id]["href"] = href
+                element["href"] = href
                 node.removeAttribute('href')
             }
 
@@ -136,7 +140,7 @@ export function addAttrs() {
                 target = '_self'
             }
             node.setAttribute("ng-attr-target", `{{sitecontent['${id}']['target']}}`)
-            element[id]["target"] = target
+            element["target"] = target
             node.removeAttribute('target')
         }
 
@@ -148,13 +152,13 @@ export function addAttrs() {
                 alert("У изображения (тега img) отсутствует атрибут src")
             } else {
                 node.setAttribute("ng-src", `{{sitecontent['${id}']['src']}}`)
-                element[id]["src"] = src
+                element["src"] = src
                 node.removeAttribute('src')
             }
         }
 
         console.log(node.tagName, element);
-        elements.push(element)
+        // elements.push(element)
     })
 
 
@@ -173,7 +177,7 @@ export function addAttrs() {
         addModel(div, id, element)
 
         console.log(div.tagName, element);
-        elements.push(element)
+        // elements.push(element)
     })
 
     console.log(elements);
