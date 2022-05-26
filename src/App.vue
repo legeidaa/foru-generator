@@ -18,11 +18,7 @@
 		</div>
 		<div class="container">
 			<div class="settings">
-				<button
-					class="button"
-					@click="addAttrs"
-				>Проставить атрибуты</button>
-				<!-- <button class="button">Конвертировать</button> -->
+
 				<DropdownSelect
 					:blockTypes="blockTypes"
 					:selectedBlockType="selectedBlockType"
@@ -31,13 +27,58 @@
 					{{ selectedBlockType }}
 				</DropdownSelect>
 
+				<button
+					class="button"
+					@click="addAttrs"
+				>Проставить атрибуты</button>
+				<!-- <button class="button">Конвертировать</button> -->
+
 			</div>
 
 			<div class="result-object">
 				<div class="result-object__header">
-
+					<h3>Элементы</h3>
+					<div
+						@click="copyElementsObject"
+						class="copy_code"
+						tabindex="0"
+						data-v-3b801528=""
+						data-v-76b5d460=""
+						style="width: 16px; height: 16px;"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="100%"
+							height="100%"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="#aaa"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="feather feather-copy"
+							data-v-3b801528=""
+						>
+							<rect
+								x="9"
+								y="9"
+								width="13"
+								height="13"
+								rx="2"
+								ry="2"
+								data-v-3b801528=""
+							></rect>
+							<path
+								d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+								data-v-3b801528=""
+							></path>
+						</svg>
+					</div>
 				</div>
-				<div class="result-object-content">
+				<div
+					ref="elemntsResult"
+					class="result-object__result"
+				>
 					{{elements}}
 				</div>
 			</div>
@@ -101,6 +142,17 @@ export default {
 	},
 
 	methods: {
+		copyElementsObject() {
+			// this.$refs.elemntsResult.focus();
+			// document.execCommand("copy");
+
+			var range = document.createRange();
+			range.selectNode(this.$refs.elemntsResult);
+			window.getSelection().removeAllRanges(); // clear current selection
+			window.getSelection().addRange(range); // to select text
+			document.execCommand("copy");
+			window.getSelection().removeAllRanges(); // to deselect
+		},
 		selectType(type) {
 			this.selectedBlockType = type;
 		},
