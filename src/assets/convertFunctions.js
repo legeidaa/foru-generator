@@ -79,9 +79,7 @@ export function addAttrs() {
         let id = null
         let childNodes = node.childNodes
         // const textTags = /\bDIV\b|\bP\b|\bSPAN\b|\bH1\b|\bH2\b|\bH3\b|\bH4\b|\bH5\b|\bH6\b|\bB\b|\bSTRONG\b|\bBLOQUOTE\b|\bI\b|\bLABEL\b|\bQ\b|\bS\b/
-        
-
-
+    
         //если айди есть, ставим его, иначе генерируем
         if (!node.hasAttribute("elementid")) {
             id = generateId()
@@ -91,9 +89,6 @@ export function addAttrs() {
         }
         elements[id] = {}
         const element =  elements[id]
-
-        console.log(element);
-
 
         //задаем классы
         addClasses(node, id, element)
@@ -126,7 +121,6 @@ export function addAttrs() {
         if (node.tagName === 'A') {
             const href = node.getAttribute('href')
             let target = node.getAttribute('target')
-            console.log();
 
             if (!href) {
                 alert("У ссылки (тега а) отсутствует атрибут href")
@@ -167,8 +161,8 @@ export function addAttrs() {
     // !!тоже надо добавлять в объект, проверить все теги
     generatedTextWrappers.forEach(div => {
         let id = generateId()
-        let element = {}
-        element[id] = {}
+        elements[id] = {}
+        const element =  elements[id]
 
         addClasses(div, id, element)
 
