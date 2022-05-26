@@ -88,7 +88,10 @@
 			ref="hiddenHTML"
 			class="hiddenHTML"
 		></div>
-
+		<div
+			ref="hiddenHTML_result"
+			class="hiddenHTML"
+		></div>
 	</div>
 </template>
 
@@ -135,10 +138,6 @@ export default {
 				border_radius: "8px",
 			};
 		},
-	},
-
-	mounted() {
-		this.$refs.hiddenHTML.innerHTML = this.content;
 	},
 
 	methods: {
@@ -226,6 +225,9 @@ export default {
 		},
 
 		addAttrs() {
+			this.$refs.hiddenHTML.innerHTML = this.content;
+
+			
 			const hiddenHTML = this.$refs.hiddenHTML;
 			const nodes = hiddenHTML.querySelectorAll("*");
 			const elements = {};
@@ -342,10 +344,12 @@ export default {
 			});
 
 			console.log(elements);
-			// return hiddenHTML.innerHTML;
+			
 			this.elements = elements;
 
-			this.result = hiddenHTML.innerHTML;
+			this.$refs.hiddenHTML_result.innerHTML = hiddenHTML.innerHTML
+
+			this.result = this.$refs.hiddenHTML_result.innerHTML
 		},
 	},
 };
