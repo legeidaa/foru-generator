@@ -115,16 +115,22 @@ export default {
 			blockTypes: ["Табы", "Обложка", "Цены", "Подвал"],
 			selectedBlockType: "Табы",
 			content: `<div onclick="alert(1)" class="trade__form-input" tabindex="0">
-        Текстовый узел
-        <div></div>
-        <input style="display: block; opacity: 0.9" elementid="elmqbeaq2562osaqdsokq9wr" type="number" value="45271.59">
-        <label>Цена</label>
-        <div class="trade__form-input-tooltip">
-            Введите объем <b>покупки</b>
-        </div>
-        <a id="link" href="vk.com">Ссылка</a>
-        <img />
-    </div>`,
+    Текстовый узел
+    <div></div>
+    <input placeholder="Placeholder" style="display: block; opacity: 0.9" elementid="elmqbeaq2562osaqdsokq9wr" type="number" value="45271.59">
+    <label>Цена</label>
+    <div class="trade__form-input-tooltip">
+        Введите объем <b>покупки</b>
+    </div>
+    <a id="link" href="vk.com">Ссылка</a>
+    <img alt="someimg" />
+    <iframe width="100%" title="Wikipedia page for Avocados" src="https://en.wikipedia.org/wiki/Avocado"></iframe>
+
+    <textarea required name="" id="" cols="30" rows="10"></textarea>
+    <textarea required="" name="" id="" cols="30" rows="10"></textarea>
+    <textarea required="required" name="" id="" cols="30" rows="10"></textarea>
+	<textarea name="" id="" cols="30" rows="10"></textarea>
+</div>`,
 			result: "",
 			elements: "",
 		};
@@ -214,6 +220,7 @@ export default {
 		addModel(node, id, element) {
 			if (node.children.length == 0 && node.childNodes.length > 0) {
 				node.setAttribute("ng-model", `sitecontent['${id}']['text']`);
+				node.setAttribute("ui-tinymce", "tinymceOptions");
 
 				let textContent = node.textContent;
 				textContent = textContent
@@ -227,7 +234,6 @@ export default {
 		addAttrs() {
 			this.$refs.hiddenHTML.innerHTML = this.content;
 
-			
 			const hiddenHTML = this.$refs.hiddenHTML;
 			const nodes = hiddenHTML.querySelectorAll("*");
 			const elements = {};
@@ -307,6 +313,7 @@ export default {
 
 				if (node.tagName === "IMG") {
 					const src = node.getAttribute("src");
+					const alt = node.getAttribute("alt");
 
 					if (!src) {
 						alert(
@@ -319,6 +326,79 @@ export default {
 						);
 						element["src"] = src;
 						node.removeAttribute("src");
+					}
+
+					if (alt) {
+						node.setAttribute(
+							"attr-alt",
+							`{{sitecontent['${id}']['alt']}}`
+						);
+						element["alt"] = alt;
+						node.removeAttribute("alt");
+					}
+				}
+
+				if (node.tagName === "IFRAME") {
+					const src = node.getAttribute("src");
+					const width = node.getAttribute("width");
+					const height = node.getAttribute("height");
+
+					if (!src) {
+						alert("У iframe отсутствует атрибут src");
+					} else {
+						node.setAttribute(
+							"ng-src",
+							`{{sitecontent['${id}']['src']}}`
+						);
+						element["src"] = src;
+						node.removeAttribute("src");
+					}
+
+					if (width) {
+						node.setAttribute(
+							"ng-attr-width",
+							`{{sitecontent['${id}']['width']}}`
+						);
+						element["width"] = width;
+						node.removeAttribute("width");
+					}
+
+					if (height) {
+						node.setAttribute(
+							"ng-attr-height",
+							`{{sitecontent['${id}']['height']}}`
+						);
+						element["height"] = height;
+						node.removeAttribute("height");
+					}
+				}
+
+				if (node.tagName === "TEXTAREA" || node.tagName === "INPUT") {
+					const placeholder = node.getAttribute("placeholder");
+					console.log(
+						node.hasAttribute("required"),
+						node.getAttribute("required")
+					);
+					const required = node.getAttribute("required");
+					element["required"] = false;
+
+					node.setAttribute(
+						"ng-required",
+						`{{sitecontent['${id}']['required']}}`
+					);
+
+					if (required || required == "") {
+						element["required"] = true;
+						node.removeAttribute("required");
+					}
+
+					if (placeholder) {
+						node.setAttribute(
+							"ng-attr-placeholder",
+							`{{sitecontent['${id}']['placeholder']}}`
+						);
+						element["placeholder"] = placeholder;
+						node.removeAttribute("placeholder");
 					}
 				}
 
@@ -344,12 +424,12 @@ export default {
 			});
 
 			console.log(elements);
-			
+
 			this.elements = elements;
 
-			this.$refs.hiddenHTML_result.innerHTML = hiddenHTML.innerHTML
+			this.$refs.hiddenHTML_result.innerHTML = hiddenHTML.innerHTML;
 
-			this.result = this.$refs.hiddenHTML_result.innerHTML
+			this.result = this.$refs.hiddenHTML_result.innerHTML;
 		},
 	},
 };

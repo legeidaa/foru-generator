@@ -55,10 +55,10 @@ body {
         }
     }
 
-    &_custom {
-        // border-radius: 0px !important;
-        // border: 3px solid #1b1b32;
-    }
+    // &_custom {
+    //     // border-radius: 0px !important;
+    //     // border: 3px solid #1b1b32;
+    // }
     
 }
 
@@ -66,6 +66,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    align-content: baseline;
 }
 
 .button {
@@ -182,6 +183,12 @@ body {
             position: absolute !important;
             top: 10px;
             right: 12px;
+            transition: 0.2s opacity ease;
+            opacity: 0.5;
+            cursor: pointer;
+            &:hover {
+                opacity: 1;
+            }
         }
     }
     &__result {
