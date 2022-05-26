@@ -3,7 +3,7 @@ const {
 } = require('@vue/cli-service')
 module.exports = defineConfig({
     transpileDependencies: true,
-    base: '/foru-generator/',
+    // base: '/foru-generator/',
     publicPath: process.env.NODE_ENV === 'production' ?
         '/foru-generator/' :
         '/'
