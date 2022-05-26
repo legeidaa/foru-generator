@@ -12,27 +12,20 @@ function generateId() {
     }
     return "el" + generateRandomString(5, null).toLowerCase();
 }
-// function getAttrsWithId(id) {
-//     return {
-//         "ng-class": `sitecontent['${id}']['classes']`,
-//         "ng-style": `sitecontent['${id}']['style']`,
-//         "ng-attr-modelid": `{{sitecontent['${id}']['modelid']}}`
-//     }
-// }
 
 
 function addClasses(node, id, element) {
     let classes = Array.from(node.classList).join(' ')
 
     if (classes == '') {
-        classes = null
+        classes = ''
     }
     element[id]["classes"] = classes
     node.setAttribute("ng-class", `sitecontent['${id}']['classes']`)
 
 }
 
-function addStyles(node, id, element) {
+function addStyle(node, id, element) {
     let style = node.getAttribute("style")
     let properties = {}
 
@@ -48,19 +41,29 @@ function addStyles(node, id, element) {
     }
     element[id]["style"] = properties
     node.setAttribute("ng-style", `sitecontent['${id}']['style']`)
-    node.removeAttribute('style')
+    // node.removeAttribute('style')
 
 }
 
-function addNodeId(node, id, element) {
+function addModelId(node, id, element) {
     let nodeId = node.getAttribute("id")
 
-    if (nodeId == '') {
-        nodeId = null
+    if (nodeId != null) {
+        element[id]["modelid"] = nodeId
     }
 
-    element[id]["modelid"] = nodeId
     node.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
+}
+
+function addModel(node, id, element) {
+    if (node.children.length == 0 && node.childNodes.length > 0) {
+        node.setAttribute("ng-model", `sitecontent['${id}']['text']`)
+
+        let textContent = node.textContent
+        textContent = textContent.replace(/\n/g,'').replace(/\s+/g, ' ')
+        element[id]["text"] = textContent
+        node.innerHTML = ''
+    }
 }
 
 
@@ -68,13 +71,12 @@ export function addAttrs() {
     const hiddenHTML = document.querySelector('.hiddenHTML')
     const nodes = hiddenHTML.querySelectorAll('*')
 
-    let generatedSpans = []
+    let generatedTextWrappers = []
 
     nodes.forEach(node => {
         let id = null
         let childNodes = node.childNodes
         // const textTags = /\bDIV\b|\bP\b|\bSPAN\b|\bH1\b|\bH2\b|\bH3\b|\bH4\b|\bH5\b|\bH6\b|\bB\b|\bSTRONG\b|\bBLOQUOTE\b|\bI\b|\bLABEL\b|\bQ\b|\bS\b/
-
         const element = {}
 
 
@@ -85,7 +87,6 @@ export function addAttrs() {
         } else {
             id = node.getAttribute('elementid')
         }
-
         element[id] = {}
 
 
@@ -93,68 +94,59 @@ export function addAttrs() {
         addClasses(node, id, element)
 
         //задаем стили
-        addStyles(node, id, element)
+        addStyle(node, id, element)
 
         //задаем айди узла
-        addNodeId(node, id, element)
+        addModelId(node, id, element)
 
-        //оборачиваем в span текстовые узлы
+        //текстовый узел
+        addModel(node, id, element)
+
+        //оборачиваем в div текстовые узлы
         for (let i = 0; i < childNodes.length; i++) {
 
             if (childNodes[i].nodeType == 3) {
                 if (childNodes[i].textContent.trim() != '' && node == childNodes[i].parentNode && node.children.length > 0) {
-                    const span = document.createElement('span');
+                    const div = document.createElement('div');
                     childNodes[i].data.trim()
-                    childNodes[i].after(span);
+                    childNodes[i].after(div);
 
 
-                    span.appendChild(childNodes[i]);
-                    generatedSpans.push(span)
+                    div.appendChild(childNodes[i]);
+                    generatedTextWrappers.push(div)
                 }
             }
         }
 
-        console.log(element);
-
-
         if (node.tagName === 'A') {
-
             node.setAttribute("ng-href", `{{sitecontent['${id}']['href']}}`)
             node.setAttribute("ng-attr-target", `{{sitecontent['${id}']['target']}}`)
         }
+
         if (node.tagName === 'IMG') {
             // const src =  node.getAttribute("src")
             node.setAttribute("ng-src", `{{sitecontent['${id}']['src']}}`)
         }
 
-        //ставим атрибут, если нет потомков и если есть текстовый узел
-        if (node.children.length == 0 && node.childNodes.length > 0) {
-            // console.log(node.textContent, node.childNodes);
-            node.setAttribute("ng-model", `sitecontent['${id}']['text']`)
-
-            element[id]["text"] = node.textContent
-            node.innerHTML = ''
-        }
+        console.log(node.tagName, element);
     })
 
 
     //так как спаны, которым оборачиваем текстовые узлы, не присутствуют в nodes, нужно их проходить отдельно
 
     // !!тоже надо добавлять в объект, проверить все теги
-    generatedSpans.forEach(span => {
+    generatedTextWrappers.forEach(div => {
         let id = generateId()
         let element = {}
         element[id] = {}
 
-        //классы можно не добавлять
-        // span.setAttribute("ng-class", `sitecontent['${id}']['classes']`)
-        // span.setAttribute("ng-style", `sitecontent['${id}']['style']`)
-        // span.setAttribute("ng-attr-modelid", `{{sitecontent['${id}']['modelid']}}`)
-        span.setAttribute("ng-model", `sitecontent['${id}']['text']`)
-        element[id]["text"] = span.textContent
-        span.innerHTML = ''
+        addClasses(div, id, element)
 
-        console.log(element);
+        addStyle(div, id, element)
+
+        addModel(div, id, element)
+
+        console.log(div.tagName, element);
     })
 
     return hiddenHTML.innerHTML
