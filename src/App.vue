@@ -2,6 +2,7 @@
 	<div>
 		<div class="container">
 			<CodeEditor
+				class=" atom_one_dark code_editor_custom"
 				:languages="[['HTML', 'HTML']]"
 				v-model="content"
 				:wrap_code="true"
@@ -21,8 +22,8 @@
 					class="button"
 					@click="addAttributess"
 				>Проставить атрибуты</button>
-				<button class="button">Конвертировать</button>
-				<DropdownSelect 
+				<!-- <button class="button">Конвертировать</button> -->
+				<DropdownSelect
 					:blockTypes="blockTypes"
 					:selectedBlockType="selectedBlockType"
 					@selectType="selectType"
@@ -37,12 +38,6 @@
 			ref="hiddenHTML"
 			class="hiddenHTML"
 		></div>
-
-		<div>     быфывфвфвфвы
-
-			фывфвыыфвф
-		</div>
-		
 	</div>
 </template>
 

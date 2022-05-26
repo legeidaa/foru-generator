@@ -60,7 +60,7 @@ function addModel(node, id, element) {
         node.setAttribute("ng-model", `sitecontent['${id}']['text']`)
 
         let textContent = node.textContent
-        textContent = textContent.replace(/\n/g,'').replace(/\s+/g, ' ')
+        textContent = textContent.replace(/\n/g, '').replace(/\s+/g, ' ')
         element[id]["text"] = textContent
         node.innerHTML = ''
     }
@@ -70,6 +70,7 @@ function addModel(node, id, element) {
 export function addAttrs() {
     const hiddenHTML = document.querySelector('.hiddenHTML')
     const nodes = hiddenHTML.querySelectorAll('*')
+    const elements = []
 
     let generatedTextWrappers = []
 
@@ -119,16 +120,41 @@ export function addAttrs() {
         }
 
         if (node.tagName === 'A') {
-            node.setAttribute("ng-href", `{{sitecontent['${id}']['href']}}`)
+            const href = node.getAttribute('href')
+            let target = node.getAttribute('target')
+            console.log();
+
+            if (!href) {
+                alert("У ссылки (тега а) отсутствует атрибут href")
+            } else {
+                node.setAttribute("ng-href", `{{sitecontent['${id}']['href']}}`)
+                element[id]["href"] = href
+                node.removeAttribute('href')
+            }
+
+            if (!target) {
+                target = '_self'
+            }
             node.setAttribute("ng-attr-target", `{{sitecontent['${id}']['target']}}`)
+            element[id]["target"] = target
+            node.removeAttribute('target')
         }
 
         if (node.tagName === 'IMG') {
-            // const src =  node.getAttribute("src")
-            node.setAttribute("ng-src", `{{sitecontent['${id}']['src']}}`)
+            const src = node.getAttribute("src")
+
+
+            if (!src) {
+                alert("У изображения (тега img) отсутствует атрибут src")
+            } else {
+                node.setAttribute("ng-src", `{{sitecontent['${id}']['src']}}`)
+                element[id]["src"] = src
+                node.removeAttribute('src')
+            }
         }
 
         console.log(node.tagName, element);
+        elements.push(element)
     })
 
 
@@ -147,7 +173,9 @@ export function addAttrs() {
         addModel(div, id, element)
 
         console.log(div.tagName, element);
+        elements.push(element)
     })
 
+    console.log(elements);
     return hiddenHTML.innerHTML
 }

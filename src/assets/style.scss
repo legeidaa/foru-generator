@@ -33,7 +33,10 @@ body {
     textarea {
         background: inherit !important;
     }
-
+    &_custom {
+        // border-radius: 0px !important;
+        // border: 3px solid #1b1b32;
+    }
 }
 
 .settings {
